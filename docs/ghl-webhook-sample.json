@@ -1,6 +1,6 @@
 {
   "contentType": "application/json",
-  "webhook": "LEAD_WEBHOOK_URL is blank until the water-damage address is ready. While it is blank the survey does not POST.",
+  "webhook": "LEAD_WEBHOOK_URL in js/config.js. The survey POSTs this JSON shape.",
   "fields": [
     "phone",
     "businessType",
