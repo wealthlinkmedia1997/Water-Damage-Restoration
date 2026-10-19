@@ -97,9 +97,9 @@ window.EXPLAINER_VIDEO = {
   caption: "",
 };
 
-// Homepage rail: windows-test HOME order, with the duplicate
-// chriss/natalies clips collapsed to chris/natalie, plus Danny.
-window.HOME_TESTIMONIAL_IDS = ["todd", "trevor", "anthony", "bryan", "natalie", "jim", "mindi", "chris", "paul", "danny"];
+// Homepage rail: water restoration first, then contractor/construction
+// alternating with window and tinting businesses. Natalie (door repair) follows.
+window.HOME_TESTIMONIAL_IDS = ["anthony", "danny", "trevor", "jim", "paul", "mindi", "chris", "todd", "natalie", "bryan"];
 // Booking pages match windows-test BOOKING_TESTIMONIAL_IDS.
 window.BOOKING_TESTIMONIAL_IDS = ["jim", "trevor", "mindi"];
 // Thank-you page matches windows-test THANK_YOU_TESTIMONIAL_IDS.
