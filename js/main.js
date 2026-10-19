@@ -665,7 +665,6 @@ function wireQualifierSteps(formEl) {
     const t = e.target;
     if (!t || !t.name) return;
     if (t.name === "business_type" && DISQUALIFIED_BUSINESS[t.value]) {
-      postLeadWebhook(qualifierPayload(formEl, "no"));
       window.location.href = "sorry.html?reason=service";
       return;
     }
@@ -715,10 +714,11 @@ function wireQualifierSteps(formEl) {
 function submitQualifier(formEl) {
   const businessType = fieldValue(formEl, "business_type");
   if (DISQUALIFIED_BUSINESS[businessType]) {
-    postLeadWebhook(qualifierPayload(formEl, "no"));
     window.location.href = "sorry.html?reason=service";
     return;
   }
+
+  if (formEl.dataset.leadPosted === "1") return;
 
   const missing = QUALIFIER_STEPS.find((name) => !qualifierStepComplete(formEl, name));
   if (missing) {
@@ -732,6 +732,12 @@ function submitQualifier(formEl) {
   }
 
   const payload = qualifierPayload(formEl, "yes");
+  if (digitsOnly(payload.phone).length < 10) return;
+
+  formEl.dataset.leadPosted = "1";
+  const submitBtn = formEl.querySelector('button[type="submit"]');
+  if (submitBtn) submitBtn.disabled = true;
+
   // Under $25K follows the secondary calendar. $25K and up uses the primary one.
   // Every qualified lead still lands on thank-you first.
   const bookingPage = fieldValue(formEl, "current_revenue") === "under_25k"

@@ -1,6 +1,6 @@
 {
   "contentType": "application/json",
-  "webhook": "LEAD_WEBHOOK_URL in js/config.js. The survey POSTs this JSON shape.",
+  "webhook": "LEAD_WEBHOOK_URL in js/config.js. The survey POSTs this JSON shape once, on the final submit, and only when a phone number is present. Mold-only and waterproofing-only answers are not posted; the page redirects to sorry.html?reason=service.",
   "fields": [
     "phone",
     "businessType",
@@ -43,7 +43,7 @@
       "r250_500": "$250K–$500K",
       "r500_plus": "$500K+"
     },
-    "qualified": ["yes", "no"]
+    "qualified": ["yes"]
   },
   "samples": [
     {
@@ -83,44 +83,6 @@
         "targetRevenue": "$500K+",
         "targetRevenueCode": "r500_plus",
         "qualified": "yes",
-        "source": "water-damage-restoration-lp",
-        "pageUrl": "https://wealthlinkmedia1997.github.io/Water-Damage-Restoration/"
-      }
-    },
-    {
-      "path": "Disqualified on question 1 (mold only). Posts qualified no, then sorry.html?reason=service. No phone yet.",
-      "payload": {
-        "phone": "",
-        "businessType": "Mold remediation only",
-        "businessTypeCode": "mold",
-        "jobType": "",
-        "jobTypeCode": "",
-        "paymentMix": "",
-        "paymentMixCode": "",
-        "currentRevenue": "",
-        "currentRevenueCode": "",
-        "targetRevenue": "",
-        "targetRevenueCode": "",
-        "qualified": "no",
-        "source": "water-damage-restoration-lp",
-        "pageUrl": "https://wealthlinkmedia1997.github.io/Water-Damage-Restoration/"
-      }
-    },
-    {
-      "path": "Disqualified on question 1 (waterproofing only). Posts qualified no, then sorry.html?reason=service. No phone yet.",
-      "payload": {
-        "phone": "",
-        "businessType": "Basement waterproofing",
-        "businessTypeCode": "waterproofing",
-        "jobType": "",
-        "jobTypeCode": "",
-        "paymentMix": "",
-        "paymentMixCode": "",
-        "currentRevenue": "",
-        "currentRevenueCode": "",
-        "targetRevenue": "",
-        "targetRevenueCode": "",
-        "qualified": "no",
         "source": "water-damage-restoration-lp",
         "pageUrl": "https://wealthlinkmedia1997.github.io/Water-Damage-Restoration/"
       }
