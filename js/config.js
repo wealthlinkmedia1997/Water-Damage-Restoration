@@ -21,7 +21,8 @@ window.RANKFLOW_CONFIG = {
   GHL_CALENDAR_TRACKED_URL: "https://api.leadconnectorhq.com/widget/booking/pMJDW8Cfcd9WPJ4cYgZD",
   GHL_CALENDAR_UNTRACKED_URL: "https://api.leadconnectorhq.com/widget/booking/ga0cRduAzJ5K5ZYKrDjU",
 
-  // GHL inbound webhook. Blank: the form does not POST anywhere.
-  // The thank-you redirect still runs.
+  // GHL inbound webhook. Leave blank until the water-damage URL is ready.
+  // The survey still builds the JSON body in docs/ghl-webhook-sample.json
+  // and does not POST while this is empty. The thank-you redirect still runs.
   LEAD_WEBHOOK_URL: "",
 };

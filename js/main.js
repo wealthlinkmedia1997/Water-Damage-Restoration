@@ -519,12 +519,86 @@ const DISQUALIFIED_BUSINESS = {
   basement_waterproofing: true,
   mold_only: true,
 };
+// Readable label comes from the control. The code is the short value GHL maps on.
+const BUSINESS_TYPE_CODES = {
+  emergency_restoration: "restoration",
+  restoration_and_waterproofing: "both",
+  basement_waterproofing: "waterproofing",
+  mold_only: "mold",
+};
+const JOB_TYPE_CODES = {
+  insurance_jobs: "full_mitigation",
+  smaller_jobs: "small_extraction",
+  mix: "mix",
+};
+const PAYMENT_MIX_CODES = {
+  mostly_insurance: "insurance",
+  mostly_cash: "cash",
+  half: "half",
+};
+const REVENUE_CODES = {
+  under_25k: "r0_25",
+  "25k_50k": "r25_50",
+  "50k_100k": "r50_100",
+  "100k_250k": "r100_250",
+  "250k_500k": "r250_500",
+  "500k_plus": "r500_plus",
+};
+
+function utmParams() {
+  const out = {};
+  try {
+    new URLSearchParams(window.location.search).forEach(function (value, key) {
+      if (key.indexOf("utm_") === 0) out[key] = value;
+    });
+  } catch (e) {}
+  return out;
+}
+
+function qualifierPayload(formEl, qualified) {
+  const businessValue = fieldValue(formEl, "business_type");
+  const jobValue = fieldValue(formEl, "job_type");
+  const payValue = fieldValue(formEl, "payment_mix");
+  const currentValue = fieldValue(formEl, "current_revenue");
+  const targetValue = fieldValue(formEl, "target_revenue");
+  const payload = {
+    phone: fieldValue(formEl, "phone"),
+    businessType: fieldLabel(formEl, "business_type"),
+    businessTypeCode: BUSINESS_TYPE_CODES[businessValue] || "",
+    jobType: fieldLabel(formEl, "job_type"),
+    jobTypeCode: JOB_TYPE_CODES[jobValue] || "",
+    paymentMix: fieldLabel(formEl, "payment_mix"),
+    paymentMixCode: PAYMENT_MIX_CODES[payValue] || "",
+    currentRevenue: fieldLabel(formEl, "current_revenue"),
+    currentRevenueCode: REVENUE_CODES[currentValue] || "",
+    targetRevenue: fieldLabel(formEl, "target_revenue"),
+    targetRevenueCode: REVENUE_CODES[targetValue] || "",
+    qualified: qualified,
+    source: "water-damage-restoration-lp",
+    pageUrl: window.location.href,
+  };
+  const utm = utmParams();
+  Object.keys(utm).forEach(function (key) { payload[key] = utm[key]; });
+  return payload;
+}
+
+function postLeadWebhook(payload) {
+  const url = window.RANKFLOW_CONFIG && window.RANKFLOW_CONFIG.LEAD_WEBHOOK_URL;
+  if (!url) return;
+  fetch(url, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(payload),
+    keepalive: true,
+  }).catch(function () {});
+}
 
 function fieldValue(formEl, name) {
   const checked = formEl.querySelector('[name="' + name + '"]:checked');
   if (checked) return checked.value;
   const el = formEl.querySelector('[name="' + name + '"]');
-  return el ? el.value.trim() : "";
+  if (!el || el.type === "radio" || el.type === "checkbox") return "";
+  return el.value.trim();
 }
 
 function fieldLabel(formEl, name) {
@@ -591,6 +665,7 @@ function wireQualifierSteps(formEl) {
     const t = e.target;
     if (!t || !t.name) return;
     if (t.name === "business_type" && DISQUALIFIED_BUSINESS[t.value]) {
+      postLeadWebhook(qualifierPayload(formEl, "no"));
       window.location.href = "sorry.html?reason=service";
       return;
     }
@@ -640,6 +715,7 @@ function wireQualifierSteps(formEl) {
 function submitQualifier(formEl) {
   const businessType = fieldValue(formEl, "business_type");
   if (DISQUALIFIED_BUSINESS[businessType]) {
+    postLeadWebhook(qualifierPayload(formEl, "no"));
     window.location.href = "sorry.html?reason=service";
     return;
   }
@@ -655,36 +731,18 @@ function submitQualifier(formEl) {
     return;
   }
 
-  const data = {
-    business_type: fieldLabel(formEl, "business_type"),
-    job_type: fieldLabel(formEl, "job_type"),
-    payment_mix: fieldLabel(formEl, "payment_mix"),
-    current_revenue: fieldLabel(formEl, "current_revenue"),
-    target_revenue: fieldLabel(formEl, "target_revenue"),
-    phone: fieldValue(formEl, "phone"),
-  };
+  const payload = qualifierPayload(formEl, "yes");
   // Under $25K follows the secondary calendar. $25K and up uses the primary one.
   // Every qualified lead still lands on thank-you first.
-  data.bookingPage = fieldValue(formEl, "current_revenue") === "under_25k"
+  const bookingPage = fieldValue(formEl, "current_revenue") === "under_25k"
     ? "book-untracked.html"
     : "book-tracked.html";
 
-  sessionStorage.setItem("rankflow_lead", JSON.stringify(data));
-  if (window.RANKFLOW_CONFIG.LEAD_WEBHOOK_URL) {
-    fetch(window.RANKFLOW_CONFIG.LEAD_WEBHOOK_URL, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        business_type: data.business_type,
-        job_type: data.job_type,
-        payment_mix: data.payment_mix,
-        current_revenue: data.current_revenue,
-        target_revenue: data.target_revenue,
-        phone: data.phone,
-      }),
-      keepalive: true,
-    }).catch(() => {});
-  }
+  sessionStorage.setItem("rankflow_lead", JSON.stringify({
+    bookingPage: bookingPage,
+    phone: payload.phone,
+  }));
+  postLeadWebhook(payload);
   trackMetaLead();
   window.location.href = "thank-you.html";
 }
