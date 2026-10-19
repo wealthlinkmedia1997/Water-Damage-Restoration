@@ -6,8 +6,10 @@
 // ============================================================
 window.RANKFLOW_CONFIG = {
   // Meta (Facebook) Pixel ID — Events Manager > Data Sources > your pixel.
+  // index.html also includes this pixel in <head>. initTracking() does not
+  // init or send PageView again when fbq is already on the page.
   // Blank: initTracking() does not load fbevents.js and does not fire.
-  META_PIXEL_ID: "",
+  META_PIXEL_ID: "1072650102023137",
 
   // Google Places API key. Same browser key as windows-test. It is
   // expected to be visible client-side. Blank: the business name stays a

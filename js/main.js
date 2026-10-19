@@ -1248,7 +1248,10 @@ function wireStickyCta(barId, formSelector) {
 function initTracking() {
   const cfg = window.RANKFLOW_CONFIG || {};
   const pixelId = String(cfg.META_PIXEL_ID || "").trim();
-  if (pixelId && !/^REPLACE/i.test(pixelId)) {
+  // index.html boots the pixel in <head>. A second init/PageView here would
+  // double-count that page. Other pages have no head snippet, so they still
+  // get one init and one PageView from this loader.
+  if (pixelId && !/^REPLACE/i.test(pixelId) && !window.fbq) {
     !(function (f, b, e, v, n, t, s) {
       if (f.fbq) return;
       n = f.fbq = function () {
