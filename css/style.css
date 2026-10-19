@@ -730,6 +730,7 @@ button.cta { width: 100%; }
   border-color: var(--amber-ink);
   box-shadow: 0 0 0 3px rgba(107, 74, 8, 0.18);
 }
+.form-next { margin-top: 16px; }
 .form-back {
   display: block;
   margin: 4px auto 0;

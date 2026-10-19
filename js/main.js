@@ -594,9 +594,28 @@ function wireQualifierSteps(formEl) {
       window.location.href = "sorry.html?reason=service";
       return;
     }
+    // Q4 stays on screen until Next. Q1–Q3 move on as soon as an option is tapped.
+    if (t.name === "current_revenue" || t.name === "target_revenue") {
+      if (steps.revenue && qualifierStepComplete(formEl, "revenue")) {
+        steps.revenue.classList.remove("has-error");
+      }
+      return;
+    }
     if (t.name === "phone") return;
     advance();
   });
+
+  const next = formEl.querySelector(".form-next");
+  if (next) {
+    next.addEventListener("click", function () {
+      if (QUALIFIER_STEPS[index] !== "revenue") return;
+      if (!qualifierStepComplete(formEl, "revenue")) {
+        if (steps.revenue) steps.revenue.classList.add("has-error");
+        return;
+      }
+      advance();
+    });
+  }
 
   if (back) {
     back.addEventListener("click", function () {
