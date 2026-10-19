@@ -340,8 +340,8 @@ function renderExplainerVideo(containerId, stepBarId, opts) {
 //
 //   GBP = No        -> no-google-business.html  (any revenue)
 //   Revenue $0-10k  -> sorry.html               (Yes or Unverified)
-//   Revenue $10-25k -> book-untracked.html   SECONDARY (sCFZ3xO5KSrolIiIe0FY)
-//   Revenue $25k+   -> book-tracked.html     MAIN      (RLJBIDoVL2gvxpqqI7lu)
+//   Revenue $10-25k -> book-untracked.html   SECONDARY (ga0cRduAzJ5K5ZYKrDjU)
+//   Revenue $25k+   -> book-tracked.html     MAIN      (pMJDW8Cfcd9WPJ4cYgZD)
 //
 // Note the change: once a lead is past the two disqualifiers, GBP status no
 // longer affects which calendar they get. Unverified/suspended at $25k+ now
@@ -1020,7 +1020,7 @@ function loadGhlCalendar(containerId, url) {
     iframe.src = url + (prefill ? (url.indexOf("?") === -1 ? "?" : "&") + prefill : "");
 
     // GHL's own generated snippet uses `widgetId_<unique suffix>`, e.g.
-    // sCFZ3xO5KSrolIiIe0FY_1787884958998. form_embed.js matches on that
+    // pMJDW8Cfcd9WPJ4cYgZD_1787884958998. form_embed.js matches on that
     // prefix, so each embed needs its OWN id. Two iframes sharing a single
     // id means only one can ever be resized - the other stays collapsed,
     // which reads as blank space where a calendar should be.

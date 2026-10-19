@@ -14,12 +14,12 @@ window.RANKFLOW_CONFIG = {
   // plain text field and autocomplete is not loaded.
   GOOGLE_PLACES_API_KEY: "AIzaSyB7VqEv9lQC71rLQmLlH2JOp9WSyhf9aTk",
 
-  // GHL calendar embed URLs.
-  // TRACKED = good leads (Schedule Your Strategy Call).
-  // UNTRACKED = leads who are not the primary fit but can still book.
-  // Same embed URLs as windows-test. Blank would show "Calendar not configured yet".
-  GHL_CALENDAR_TRACKED_URL: "https://api.leadconnectorhq.com/widget/booking/RLJBIDoVL2gvxpqqI7lu",
-  GHL_CALENDAR_UNTRACKED_URL: "https://api.leadconnectorhq.com/widget/booking/sCFZ3xO5KSrolIiIe0FY",
+  // GHL calendar embed URLs for the water-damage calendars.
+  // TRACKED = good leads (book-tracked.html).
+  // UNTRACKED = leads who are not the primary fit (book-untracked.html).
+  // Blank would show "Calendar not configured yet".
+  GHL_CALENDAR_TRACKED_URL: "https://api.leadconnectorhq.com/widget/booking/pMJDW8Cfcd9WPJ4cYgZD",
+  GHL_CALENDAR_UNTRACKED_URL: "https://api.leadconnectorhq.com/widget/booking/ga0cRduAzJ5K5ZYKrDjU",
 
   // GHL inbound webhook. Blank: the form does not POST anywhere.
   // The thank-you redirect still runs.
