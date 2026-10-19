@@ -860,6 +860,10 @@ button.cta { width: 100%; }
   color: var(--body);
   font-size: 16px;
 }
+.reach-note a {
+  color: var(--teal-deep);
+  font-weight: 800;
+}
 .report-heading {
   margin: 8px 0;
   font-size: 28px;

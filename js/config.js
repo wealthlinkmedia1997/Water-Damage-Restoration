@@ -24,4 +24,14 @@ window.RANKFLOW_CONFIG = {
   // GHL inbound webhook. The survey POSTs the flat JSON body
   // documented in docs/ghl-webhook-sample.json. The thank-you redirect still runs.
   LEAD_WEBHOOK_URL: "https://services.leadconnectorhq.com/hooks/oJyfQVqrbosEEz3hI106/webhook-trigger/H0OdxM0lnZtEWNXMhq5T",
+
+  // Thank-you page contact card. The number is also a tel: link.
+  THANK_YOU_CONTACT: {
+    heading: "Expect a call from Angie",
+    name: "Angie, WealthLink Media",
+    phoneDisplay: "725-527-4503",
+    phoneTel: "+17255274503",
+    noteBefore: "Angie from our team will call you from ",
+    noteAfter: " (Las Vegas, NV). Save the number so you don't miss it.",
+  },
 };

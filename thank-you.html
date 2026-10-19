@@ -28,10 +28,10 @@
       <a class="cta" href="book-tracked.html">Schedule Your Strategy Call</a>
     </p>
 
-    <div class="contact-card" id="reachAndre">
-      <h2>Contact Andre Slyter</h2>
-      <p class="contact-name">Andre Slyter</p>
-      <p class="reach-note">Andre will call the number you just entered. A direct phone line is not listed on this page.</p>
+    <div class="contact-card" id="thankYouContact">
+      <h2 id="thankYouContactHeading">Expect a call from Angie</h2>
+      <p class="contact-name" id="thankYouContactName">Angie, WealthLink Media</p>
+      <p class="reach-note" id="thankYouContactNote">Angie from our team will call you from <a href="tel:+17255274503">725-527-4503</a> (Las Vegas, NV). Save the number so you don't miss it.</p>
     </div>
 
     <section class="videos" aria-labelledby="ty-videos">
@@ -51,6 +51,24 @@
 <script src="js/testimonials-data.js"></script>
 <script src="js/main.js"></script>
 <script>
+  (function () {
+    var c = window.RANKFLOW_CONFIG && window.RANKFLOW_CONFIG.THANK_YOU_CONTACT;
+    if (!c) return;
+    var heading = document.getElementById("thankYouContactHeading");
+    var name = document.getElementById("thankYouContactName");
+    var note = document.getElementById("thankYouContactNote");
+    if (heading) heading.textContent = c.heading;
+    if (name) name.textContent = c.name;
+    if (note && c.phoneTel && c.phoneDisplay) {
+      note.textContent = "";
+      note.appendChild(document.createTextNode(c.noteBefore || ""));
+      var link = document.createElement("a");
+      link.href = "tel:" + c.phoneTel;
+      link.textContent = c.phoneDisplay;
+      note.appendChild(link);
+      note.appendChild(document.createTextNode(c.noteAfter || ""));
+    }
+  })();
   renderExplainerVideo("explainer-video", "stepBar", { autoplay: true });
   renderTestimonials("booking-testimonials", window.THANK_YOU_TESTIMONIAL_IDS);
   (function () {

@@ -9,7 +9,7 @@ https://wealthlinkmedia1997.github.io/Water-Damage-Restoration/
 ## Pages
 
 - `index.html` — VSL, application form, results, video rail
-- `thank-you.html` — after the form. Contact: Andre Slyter
+- `thank-you.html` — after the form. Contact: Angie, WealthLink Media
 - `book-tracked.html` — good leads, Schedule Your Strategy Call
 - `book-untracked.html` — not the primary fit, can still book
 - `sorry.html` — under the revenue range
