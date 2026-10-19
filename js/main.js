@@ -16,8 +16,7 @@ const ICON_CALENDAR = `<svg viewBox="0 0 24 24" width="14" height="14" fill="non
 const ICON_GLOBE = `<svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c2.5 2.5 2.5 15.5 0 18M12 3c-2.5 2.5-2.5 15.5 0 18"/></svg>`;
 
 function renderLogo(el) {
-  if (!el) return;
-  el.innerHTML = `<a class="wordmark" href="index.html">WealthLink Media</a>`;
+  if (el) el.remove();
 }
 
 // ---------- Video testimonial cards ----------
