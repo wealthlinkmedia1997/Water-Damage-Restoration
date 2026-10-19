@@ -366,9 +366,22 @@ button.cta { width: 100%; }
 .tile-shot {
   display: block;
   height: 360px;
-  padding: 10px;
-  background: var(--paper);
+  padding: 0;
+  background: var(--navy);
+  overflow: hidden;
   border-bottom: 1px solid var(--line);
+}
+.tile-shot img,
+.card-photo {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+}
+.card-photo {
+  aspect-ratio: 3 / 2;
+  height: auto;
 }
 .tile-body {
   flex: 1;

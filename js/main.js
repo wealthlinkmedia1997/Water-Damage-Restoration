@@ -30,8 +30,7 @@ function videoCardHTML(t) {
         ${!t.videoSrc ? `<div class="video-placeholder-label">Video not configured — see testimonials-data.js</div>` : ""}
       </div>
       <p class="testimonial-quote">"${escHtml(t.quote)}"</p>
-      <p class="vid-name">${escHtml(t.name)}</p>
-      <p class="vid-biz">${escHtml(t.company)}</p>
+      <p class="vid-name">${escHtml(t.name)} — ${escHtml(t.company)}</p>
     </div>
   `;
 }

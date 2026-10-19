@@ -20,6 +20,6 @@ Links are relative so they work under `/Water-Damage-Restoration/`.
 
 ## Config
 
-`js/config.js` ships blank. Empty webhook: the form does not POST, and still redirects to the thank-you page. Empty Places key: business name is a plain text field. Empty pixel id: the pixel script is not loaded. Empty calendar URLs: booking pages say “Calendar not configured yet”.
+`js/config.js` leaves the pixel and the lead webhook blank. Empty webhook: the form does not POST, and still redirects to the thank-you page. Empty pixel id: the pixel script is not loaded. The Places key and both GHL calendar URLs are set. Blank calendar URLs would show “Calendar not configured yet”.
 
 The video is `assets/video/vsl.mp4` with poster `assets/video/vsl-poster.jpg`.

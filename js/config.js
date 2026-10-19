@@ -17,9 +17,9 @@ window.RANKFLOW_CONFIG = {
   // GHL calendar embed URLs.
   // TRACKED = good leads (Schedule Your Strategy Call).
   // UNTRACKED = leads who are not the primary fit but can still book.
-  // Blank: booking pages show "Calendar not configured yet".
-  GHL_CALENDAR_TRACKED_URL: "",
-  GHL_CALENDAR_UNTRACKED_URL: "",
+  // Same embed URLs as windows-test. Blank would show "Calendar not configured yet".
+  GHL_CALENDAR_TRACKED_URL: "https://api.leadconnectorhq.com/widget/booking/RLJBIDoVL2gvxpqqI7lu",
+  GHL_CALENDAR_UNTRACKED_URL: "https://api.leadconnectorhq.com/widget/booking/sCFZ3xO5KSrolIiIe0FY",
 
   // GHL inbound webhook. Blank: the form does not POST anywhere.
   // The thank-you redirect still runs.
