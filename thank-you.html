@@ -1,0 +1,65 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
+<title>We Will Call You Within 5 Minutes | WealthLink Media</title>
+<meta name="robots" content="noindex">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css">
+<script src="js/config.js"></script>
+</head>
+<body>
+<div class="page">
+  <div class="subpage">
+    <a class="wordmark" href="index.html">WealthLink Media</a>
+    <div class="success-icon" aria-hidden="true">
+      <svg viewBox="0 0 24 24" width="30" height="30" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 13l4 4L19 7"/></svg>
+    </div>
+    <h1>You&rsquo;re in. We&rsquo;ll call within 5 minutes.</h1>
+    <p class="page-copy" id="thanksCopy">Your restoration company is in the queue. Watch the short video again if you want the Match Method fresh, then schedule the strategy call. We hold one company per 30-mile radius.</p>
+
+    <h2 class="step-heading" id="stepBar">Watch the 2-minute video</h2>
+    <div id="explainer-video"></div>
+
+    <p style="text-align:center;margin:22px 0 0;">
+      <a class="cta" href="book-tracked.html">Schedule Your Strategy Call</a>
+    </p>
+
+    <div class="contact-card" id="reachAndre">
+      <h2>Contact Andre Slyter</h2>
+      <p class="contact-name">Andre Slyter</p>
+      <p class="reach-note">Andre will call the number you just entered. A direct phone line is not listed on this page.</p>
+    </div>
+
+    <section class="videos" aria-labelledby="ty-videos">
+      <h2 id="ty-videos">What restoration owners are saying</h2>
+      <div id="booking-testimonials" class="rail"></div>
+    </section>
+
+    <footer class="legal">
+      <p>© 2026 WealthLink Media</p>
+      <p class="legal-links">
+        <a href="index.html">Home</a>
+        <a href="privacy.html">Privacy Policy</a>
+      </p>
+    </footer>
+  </div>
+</div>
+<script src="js/testimonials-data.js"></script>
+<script src="js/main.js"></script>
+<script>
+  renderExplainerVideo("explainer-video", "stepBar", { autoplay: true });
+  renderTestimonials("booking-testimonials", window.THANK_YOU_TESTIMONIAL_IDS);
+  (function () {
+    var name = getLeadFirstName();
+    if (!name) return;
+    var el = document.getElementById("thanksCopy");
+    el.textContent = name + ", your restoration company is in the queue. Watch the short video again if you want the Match Method fresh, then schedule the strategy call. We hold one company per 30-mile radius.";
+  })();
+</script>
+</body>
+</html>

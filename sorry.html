@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
+<title>Not a Fit Yet | WealthLink Media</title>
+<meta name="robots" content="noindex">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css">
+<script src="js/config.js"></script>
+</head>
+<body>
+<div class="page">
+  <div class="subpage">
+    <div class="logo" id="logo"></div>
+    <h1>We can&rsquo;t help just yet</h1>
+    <p class="page-copy" id="sorryCopy">Appreciate you reaching out. Andre&rsquo;s team works with water damage restoration companies doing about $300K to $5M a year. Below that, the Match Method is not the right spend yet. Keep building the company, then come back.</p>
+    <p style="text-align:center;margin-top:28px;"><a class="cta" href="index.html">Back to the video</a></p>
+    <footer class="legal">
+      <p>© 2026 WealthLink Media</p>
+      <p class="legal-links">
+        <a href="index.html">Home</a>
+        <a href="privacy.html">Privacy Policy</a>
+      </p>
+    </footer>
+  </div>
+</div>
+<script src="js/main.js"></script>
+<script>
+  renderLogo(document.getElementById("logo"));
+  (function () {
+    var name = getLeadFirstName();
+    if (!name) return;
+    var el = document.getElementById("sorryCopy");
+    el.textContent = "Hey " + name + ", appreciate you reaching out. Andre's team works with water damage restoration companies doing about $300K to $5M a year. Below that, the Match Method is not the right spend yet. Keep building the company, then come back.";
+  })();
+</script>
+</body>
+</html>

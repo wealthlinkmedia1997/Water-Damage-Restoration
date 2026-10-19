@@ -1,0 +1,64 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
+<title>You Can Still Book a Call | WealthLink Media</title>
+<meta name="robots" content="noindex">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css">
+<script src="js/config.js"></script>
+</head>
+<body>
+<div class="page">
+  <div class="subpage">
+    <div class="logo" id="logo"></div>
+    <p class="eyebrow">Not the primary fit</p>
+    <h1>You can still book a call</h1>
+    <p class="report-subheading">This company is not qualified for the main 30-mile territory calendar. You can still book a strategy call on the second calendar below. Watch the video first so the call is useful.</p>
+
+    <div class="step-bar" id="stepBar">Step 1: Watch this 2-minute video</div>
+    <div id="explainer-video"></div>
+
+    <p class="step2-heading">Step 2: Book a call anyway</p>
+    <div class="calendar-card">
+      <div class="calendar-embed-container" id="calendarEmbed">
+        <p class="calendar-loading">Loading calendar…</p>
+      </div>
+    </div>
+
+    <section class="videos">
+      <h2>What restoration owners are saying</h2>
+      <div id="booking-testimonials" class="rail"></div>
+    </section>
+
+    <p class="step2-heading">Book a call anyway</p>
+    <div class="calendar-card">
+      <div class="calendar-embed-container" id="calendarEmbedBottom">
+        <p class="calendar-loading">Loading calendar…</p>
+      </div>
+    </div>
+
+    <footer class="legal">
+      <p>© 2026 WealthLink Media</p>
+      <p class="legal-links">
+        <a href="index.html">Home</a>
+        <a href="privacy.html">Privacy Policy</a>
+      </p>
+    </footer>
+  </div>
+</div>
+<script src="js/testimonials-data.js"></script>
+<script src="js/main.js"></script>
+<script>
+  renderLogo(document.getElementById("logo"));
+  renderExplainerVideo("explainer-video", "stepBar");
+  loadGhlCalendar("calendarEmbed", window.RANKFLOW_CONFIG.GHL_CALENDAR_UNTRACKED_URL);
+  renderTestimonials("booking-testimonials", window.BOOKING_TESTIMONIAL_IDS);
+  loadGhlCalendar("calendarEmbedBottom", window.RANKFLOW_CONFIG.GHL_CALENDAR_UNTRACKED_URL);
+</script>
+</body>
+</html>
