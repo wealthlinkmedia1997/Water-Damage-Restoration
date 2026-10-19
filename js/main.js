@@ -38,7 +38,7 @@ function videoCardHTML(t) {
 
 // Shown when a page asks for testimonials but none of them have a real
 // video. These are labeled stand-ins, not client stories and not files.
-const PLACEHOLDER_REVIEW_COUNT = 7;
+const PLACEHOLDER_REVIEW_COUNT = 3;
 
 function placeholderReviewCardHTML(t) {
   const name = t && t.name ? escHtml(t.name) : "Client video";
@@ -83,13 +83,18 @@ function renderTestimonials(containerId, ids) {
     el.classList.add("testimonial-placeholders");
     return;
   }
-  const cards = picked.map((t) => (
-    String(t.videoSrc || "").trim() ? videoCardHTML(t) : placeholderReviewCardHTML(t)
-  ));
-  while (cards.length < PLACEHOLDER_REVIEW_COUNT) cards.push(placeholderReviewCardHTML(null));
+  const withVideo = picked.filter((t) => String(t.videoSrc || "").trim());
+  // Real clips replace empty slots. If fewer than three real clips
+  // remain, keep labeled placeholders so the rail is not a stub.
+  const cards = withVideo.map(videoCardHTML);
+  const minCards = 3;
+  if (withVideo.length < minCards) {
+    const withoutVideo = picked.filter((t) => !String(t.videoSrc || "").trim());
+    withoutVideo.forEach((t) => cards.push(placeholderReviewCardHTML(t)));
+    while (cards.length < minCards) cards.push(placeholderReviewCardHTML(null));
+  }
   el.innerHTML = cards.join("");
-  const hasPlaceholder = picked.some((t) => !String(t.videoSrc || "").trim()) || cards.length > picked.filter((t) => String(t.videoSrc || "").trim()).length;
-  el.classList.toggle("testimonial-placeholders", hasPlaceholder || !picked.some((t) => String(t.videoSrc || "").trim()));
+  el.classList.toggle("testimonial-placeholders", withVideo.length < minCards);
   if (el.querySelector(".video-card[data-video-src]")) wireVideoCards(el);
 }
 

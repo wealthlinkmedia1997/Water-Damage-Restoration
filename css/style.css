@@ -488,7 +488,7 @@ button.cta { width: 100%; }
 }
 .vid-frame {
   position: relative;
-  aspect-ratio: 9 / 16;
+  aspect-ratio: 4 / 5;
   border-radius: 12px;
   overflow: hidden;
   background: var(--navy);
@@ -700,7 +700,7 @@ button.cta { width: 100%; }
 
 /* Portrait placeholders and the explainer card. */
 .video-card { position: relative; cursor: pointer; }
-.vid-frame.video-card { width: 100%; margin: 0; aspect-ratio: 9 / 16; }
+.vid-frame.video-card { width: 100%; margin: 0; aspect-ratio: 4 / 5; }
 .video-card img,
 .video-card video,
 .video-card .hover-video {
