@@ -343,13 +343,26 @@ button.cta { width: 100%; }
   display: block;
   width: 100%;
 }
+.card-media {
+  width: 100%;
+  aspect-ratio: 3 / 2;
+  background: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
 .card-photo {
   display: block;
   width: 100%;
-  height: auto;
-  aspect-ratio: 3 / 2;
+  height: 100%;
   object-fit: cover;
   object-position: center;
+}
+.card-photo-logo {
+  object-fit: contain;
+  object-position: center;
+  background: #fff;
 }
 
 [hidden] { display: none !important; }
@@ -633,18 +646,6 @@ button.cta { width: 100%; }
   cursor: pointer;
 }
 .form-back[hidden] { display: none !important; }
-.initials-avatar {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  aspect-ratio: 3 / 2;
-  background: linear-gradient(180deg, #12748A 0%, #0C5E72 55%, #084556 100%);
-  color: #F3C15A;
-  font-size: 92px;
-  font-weight: 800;
-  letter-spacing: -0.04em;
-  line-height: 1;
-}
 .autocomplete-wrapper { position: relative; }
 .ac-suggestions {
   position: absolute;
