@@ -4,7 +4,7 @@
 // Duplicate homepage variants (chriss, natalies) are the same
 // people as chris and natalie, so this rail keeps one clip each.
 // Joseph Schmidt is quote-only in the source (no video file).
-// The three written homepage story cards stay anonymized in HTML.
+// Homepage proof cards name Jim, Tony, and Joe in index.html.
 // ============================================================
 window.TESTIMONIALS = [
   {

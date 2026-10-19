@@ -1,6 +1,6 @@
 /* WealthLink Media — water damage restoration funnel.
    Layout rhythm follows a single-column VSL page: hero, proof cards,
-   screenshot wall, portrait video rail, legal footer.
+   portrait video rail, legal footer.
    Palette is deep navy and teal with an amber accent. No red. */
 
 @font-face {
@@ -256,13 +256,6 @@ button.cta { width: 100%; }
   text-align: center;
   text-wrap: balance;
 }
-.proof-head p {
-  margin: 0;
-  font-size: 17px;
-  line-height: 1.5;
-  color: var(--muted);
-  text-align: center;
-}
 
 .stats {
   list-style: none;
@@ -336,130 +329,27 @@ button.cta { width: 100%; }
 }
 .quote {
   margin: 0;
+  width: 100%;
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   font-size: 16px;
   line-height: 1.55;
   color: var(--body);
   text-wrap: pretty;
 }
-.attrib {
-  margin: auto 0 0;
-  padding-top: 6px;
-  font-size: 13px;
-  font-weight: 600;
-  color: var(--muted);
-}
-
-.wall {
-  width: 100%;
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 24px;
-}
-.tile {
-  display: flex;
-  flex-direction: column;
-  border: 1px solid var(--line);
-  border-radius: 8px;
-  overflow: hidden;
-  background: #fff;
-}
-.tile-shot {
+.quote span {
   display: block;
-  height: 360px;
-  padding: 0;
-  background: var(--navy);
-  overflow: hidden;
-  border-bottom: 1px solid var(--line);
+  width: 100%;
 }
-.tile-shot img,
 .card-photo {
   display: block;
   width: 100%;
-  height: 100%;
+  height: auto;
+  aspect-ratio: 3 / 2;
   object-fit: cover;
   object-position: center;
-}
-.card-photo {
-  aspect-ratio: 3 / 2;
-  height: auto;
-}
-.tile-body {
-  flex: 1;
-  padding: 20px 22px 22px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 6px;
-  text-align: center;
-}
-.tile-head {
-  margin: 0;
-  font-size: 20px;
-  line-height: 1.28;
-  font-weight: 800;
-  letter-spacing: -0.015em;
-  color: var(--ink);
-  text-wrap: pretty;
-}
-.tile-sub {
-  margin: 0;
-  font-size: 14px;
-  line-height: 1.45;
-  color: var(--muted);
-  text-wrap: pretty;
-}
-.tile-cap {
-  margin: 8px 0 0;
-  font-size: 15px;
-  line-height: 1.5;
-  color: var(--body);
-  text-wrap: pretty;
-}
-
-.media-slot {
-  display: flex;
-  width: 100%;
-  height: 100%;
-  min-height: 160px;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: 8px;
-  text-align: center;
-  padding: 18px 16px;
-  color: var(--ink);
-  background:
-    repeating-linear-gradient(-45deg, #E5F2F5 0 14px, #F7FBFC 14px 28px);
-  border: 2px dashed var(--teal);
-}
-.card > .media-slot {
-  aspect-ratio: 3 / 2;
-  border-left: 0;
-  border-right: 0;
-  border-top: 0;
-  border-radius: 0;
-}
-.media-slot-kicker {
-  display: inline-block;
-  background: var(--navy);
-  color: #fff;
-  font-size: 11px;
-  font-weight: 800;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-  padding: 5px 10px;
-  border-radius: 999px;
-}
-.media-slot strong {
-  font-size: 18px;
-  letter-spacing: 0.04em;
-  text-transform: uppercase;
-}
-.media-slot span:last-child {
-  font-size: 13px;
-  line-height: 1.45;
-  color: var(--muted);
-  max-width: 28em;
 }
 
 [hidden] { display: none !important; }
@@ -743,14 +633,6 @@ button.cta { width: 100%; }
   cursor: pointer;
 }
 .form-back[hidden] { display: none !important; }
-.anon-note {
-  margin: 0;
-  max-width: 40em;
-  text-align: center;
-  font-size: 17px;
-  line-height: 1.5;
-  color: var(--muted);
-}
 .initials-avatar {
   display: flex;
   align-items: center;
@@ -763,11 +645,6 @@ button.cta { width: 100%; }
   letter-spacing: -0.04em;
   line-height: 1;
 }
-.wall:has(> :only-child) {
-  grid-template-columns: 1fr;
-  max-width: 540px;
-}
-
 .autocomplete-wrapper { position: relative; }
 .ac-suggestions {
   position: absolute;
@@ -1061,7 +938,6 @@ button.cta { width: 100%; }
 .back-link a:hover { text-decoration: underline; }
 
 @media (max-width: 1000px) {
-  .proof-grid { grid-template-columns: repeat(2, 1fr); }
   .stats { grid-template-columns: repeat(2, 1fr); }
 }
 
@@ -1078,10 +954,7 @@ button.cta { width: 100%; }
   .proof-head h2,
   .videos h2,
   .subpage h1 { font-size: 30px; }
-  .proof-grid { grid-template-columns: 1fr; }
-  .wall { grid-template-columns: 1fr; gap: 18px; }
-  .tile-shot { height: 240px; }
-  .tile-head { font-size: 18px; }
+  .proof-grid { grid-template-columns: 1fr; max-width: 420px; }
   .legal { margin-top: 56px; padding-top: 26px; }
   .videos { margin-top: 64px; padding-top: 52px; gap: 26px; }
   .vid { flex: 0 0 min(258px, 66vw); }
