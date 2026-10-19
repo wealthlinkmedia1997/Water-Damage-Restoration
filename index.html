@@ -38,41 +38,87 @@
     </div>
 
     <div id="book" class="form-shell">
-      <form id="leadForm" class="lead-form" novalidate>
+      <form id="leadForm" class="lead-form" data-qualifier="1" novalidate>
+        <p class="step-count" id="stepCount">Question 1 of 5</p>
         <div class="form-progress" aria-hidden="true"><i></i></div>
-        <div class="field" data-step="businessName">
+
+        <div class="field" data-step="businessType">
           <div class="field-inner">
-            <label for="businessName">Business name</label>
-            <div class="autocomplete-wrapper">
-              <input type="text" id="businessName" name="businessName" placeholder="Your restoration company" autocomplete="off" role="combobox" aria-autocomplete="list" aria-controls="businessSuggestions" aria-expanded="false">
-              <span class="ac-spinner" hidden></span>
-              <ul class="ac-suggestions" id="businessSuggestions" role="listbox" hidden></ul>
-            </div>
-            <input type="hidden" name="placeId" value="">
-            <input type="hidden" name="placeAddress" value="">
-            <p class="field-error">Enter your business name.</p>
+            <fieldset class="choice-list">
+              <legend>Which best describes your business?</legend>
+              <label class="choice"><input type="radio" name="business_type" value="emergency_restoration"> Emergency water damage restoration and mitigation</label>
+              <label class="choice"><input type="radio" name="business_type" value="basement_waterproofing"> Basement waterproofing</label>
+              <label class="choice"><input type="radio" name="business_type" value="mold_only"> Mold remediation only</label>
+              <label class="choice"><input type="radio" name="business_type" value="restoration_and_waterproofing"> Both restoration and waterproofing</label>
+            </fieldset>
+            <p class="field-error">Choose the option that fits your company.</p>
           </div>
         </div>
-        <div class="field" data-step="firstName">
+
+        <div class="field" data-step="jobType">
           <div class="field-inner">
-            <label for="firstName">Full name</label>
-            <input type="text" id="firstName" name="firstName" placeholder="Your name" autocomplete="name">
-            <p class="field-error">Enter your name.</p>
+            <fieldset class="choice-list">
+              <legend>What kind of jobs are you going after?</legend>
+              <label class="choice"><input type="radio" name="job_type" value="insurance_jobs"> Full mitigation jobs with insurance claims ($10,000+)</label>
+              <label class="choice"><input type="radio" name="job_type" value="smaller_jobs"> Smaller extraction and cleanup jobs</label>
+              <label class="choice"><input type="radio" name="job_type" value="mix"> A mix of both</label>
+            </fieldset>
+            <p class="field-error">Choose the jobs you want.</p>
           </div>
         </div>
+
+        <div class="field" data-step="paymentMix">
+          <div class="field-inner">
+            <fieldset class="choice-list">
+              <legend>Are most of your jobs going through insurance or cash pay?</legend>
+              <label class="choice"><input type="radio" name="payment_mix" value="mostly_insurance"> Mostly insurance</label>
+              <label class="choice"><input type="radio" name="payment_mix" value="mostly_cash"> Mostly cash pay</label>
+              <label class="choice"><input type="radio" name="payment_mix" value="half"> About half and half</label>
+            </fieldset>
+            <p class="field-error">Choose how most jobs are paid.</p>
+          </div>
+        </div>
+
+        <div class="field" data-step="revenue">
+          <div class="field-inner">
+            <fieldset class="choice-list">
+              <legend>Where are you at monthly right now, and where do you want to be?</legend>
+              <label class="select-label" for="currentRevenue">Current monthly revenue</label>
+              <select id="currentRevenue" name="current_revenue">
+                <option value="">Select current revenue</option>
+                <option value="under_25k">Under $25K</option>
+                <option value="25k_50k">$25K–$50K</option>
+                <option value="50k_100k">$50K–$100K</option>
+                <option value="100k_250k">$100K–$250K</option>
+                <option value="250k_500k">$250K–$500K</option>
+                <option value="500k_plus">$500K+</option>
+              </select>
+              <label class="select-label" for="targetRevenue">Target monthly revenue</label>
+              <select id="targetRevenue" name="target_revenue">
+                <option value="">Select target revenue</option>
+                <option value="under_25k">Under $25K</option>
+                <option value="25k_50k">$25K–$50K</option>
+                <option value="50k_100k">$50K–$100K</option>
+                <option value="100k_250k">$100K–$250K</option>
+                <option value="250k_500k">$250K–$500K</option>
+                <option value="500k_plus">$500K+</option>
+              </select>
+            </fieldset>
+            <p class="field-error">Choose both your current and target monthly revenue.</p>
+          </div>
+        </div>
+
         <div class="field" data-step="phone">
           <div class="field-inner">
             <label for="phone">Phone number</label>
             <input type="tel" id="phone" name="phone" placeholder="(555) 123-4567" autocomplete="tel" inputmode="tel">
             <p class="field-error">Enter a 10-digit phone number.</p>
-          </div>
-        </div>
-        <div class="field" data-step="submit">
-          <div class="field-inner">
             <button type="submit" class="cta">Call Me Within 5 Minutes</button>
-            <p class="fine-print">One company per 30-mile radius. Winter territories go first.</p>
+            <p class="fine-print">One company per 30-mile radius. We call within 5 minutes.</p>
           </div>
         </div>
+
+        <button type="button" class="form-back" hidden>Back</button>
       </form>
     </div>
   </div>
@@ -81,18 +127,61 @@
     <div class="proof-head">
       <p class="eyebrow">Results</p>
       <h2 id="proof-title">Real Results From Restoration Owners Using the <span class="hl">Match Method</span></h2>
-      <p>Names and states are left off on purpose. The numbers are what these owners reported after Andre&rsquo;s team took the Google Maps work.</p>
       <ul class="stats">
         <li><strong>100+</strong><span>contractors in 5 years</span></li>
-        <li><strong>70+</strong><span>five-star reviews</span></li>
-        <li><strong>$0</strong><span>ad spend to earn the call</span></li>
-        <li><strong>30 mi</strong><span>one company per radius</span></li>
+        <li><strong>50+</strong><span>five-star reviews on average</span></li>
+        <li><strong>$0</strong><span>ad spend</span></li>
+        <li><strong>One</strong><span>company per 30-mile radius</span></li>
       </ul>
     </div>
 
     <div class="proof-grid">
       <article class="card">
-        <img class="card-photo" src="assets/proof/card-ads.webp" alt="Crew drying a flooded living room with air movers">
+        <img class="card-photo" src="assets/proof/card-jim.webp" alt="Jim, a water restoration company owner">
+        <div class="card-body">
+          <h3>Jim, water restoration company owner</h3>
+          <p class="metric"><span class="hl hl-sm">90+ qualified leads a month from Google Maps</span></p>
+          <p class="quote">&ldquo;Much easier to close someone from Google and ChatGPT than anything else we tried.&rdquo;</p>
+        </div>
+      </article>
+
+      <article class="card">
+        <img class="card-photo" src="assets/proof/card-ads.webp" alt="Crew drying a flooded room for Colorado Stain Masters">
+        <div class="card-body">
+          <h3>Tony, Colorado Stain Masters</h3>
+          <p class="metric"><span class="hl hl-sm">70+ five-star reviews and $60K+ monthly recurring revenue</span></p>
+        </div>
+      </article>
+
+      <article class="card">
+        <!-- Real photo or company logo replaces this avatar: assets/img/joe-nh-basement.webp -->
+        <div class="initials-avatar" role="img" aria-label="Joe, NH Basement Waterproofing">J</div>
+        <div class="card-body">
+          <h3>Joe, NH Basement Waterproofing</h3>
+        </div>
+      </article>
+    </div>
+
+    <a class="cta" href="#book">Apply for the 5-Minute Call</a>
+
+    <div class="wall">
+      <article class="tile">
+        <div class="tile-shot">
+          <img src="assets/proof/leads.webp" alt="Google Maps profile with a 90-day lead trend">
+        </div>
+        <div class="tile-body">
+          <p class="tile-head">90+ qualified leads a month from Google Maps</p>
+          <p class="tile-sub">Jim, a water restoration company owner doing $500K–$4.3M</p>
+          <p class="tile-cap">Homeowners who already found the company on Google and ChatGPT were easier to close than any other lead source they had tried.</p>
+        </div>
+      </article>
+    </div>
+
+    <p class="anon-note">Some owners prefer to stay anonymous. The numbers are what they reported after Andre&rsquo;s team took the Google Maps work.</p>
+
+    <div class="proof-grid">
+      <article class="card">
+        <img class="card-photo" src="assets/proof/card-rank.webp" alt="Technician checking drying equipment in a hallway">
         <div class="card-body">
           <h3>A stain &amp; restoration company</h3>
           <p class="metric"><span class="hl hl-sm">Double the calls, half the ad spend</span></p>
@@ -102,17 +191,7 @@
       </article>
 
       <article class="card">
-        <img class="card-photo" src="assets/proof/card-jim.webp" alt="Restoration owner in a truck cab">
-        <div class="card-body">
-          <h3>Jim, a water restoration company owner</h3>
-          <p class="metric"><span class="hl hl-sm">90+ qualified leads a month from Google Maps</span></p>
-          <p class="quote">&ldquo;Much easier to close someone from Google and ChatGPT than anything else we tried.&rdquo;</p>
-          <p class="attrib">Owner · $500K–$4.3M</p>
-        </div>
-      </article>
-
-      <article class="card">
-        <img class="card-photo" src="assets/proof/card-rank.webp" alt="Technician checking drying equipment in a hallway">
+        <img class="card-photo" src="assets/proof/calls.webp" alt="Calls chart for an anonymous restoration owner">
         <div class="card-body">
           <h3>A water restoration company owner</h3>
           <p class="metric"><span class="hl hl-sm">Outranked everyone on Google</span></p>
@@ -121,8 +200,6 @@
         </div>
       </article>
     </div>
-
-    <a class="cta" href="#book">Apply for the 5-Minute Call</a>
 
     <div class="wall">
       <article class="tile">
@@ -133,17 +210,6 @@
           <p class="tile-head">Double the emergency calls, half the ad spend</p>
           <p class="tile-sub">A stain &amp; restoration company doing $700K–$2M</p>
           <p class="tile-cap">They were spending over $10k a month on Google Ads. Andre&rsquo;s team cut that spend in half, and the phone got busier.</p>
-        </div>
-      </article>
-
-      <article class="tile">
-        <div class="tile-shot">
-          <img src="assets/proof/leads.webp" alt="Google Maps profile with a 90-day lead trend">
-        </div>
-        <div class="tile-body">
-          <p class="tile-head">90+ qualified leads a month from Google Maps</p>
-          <p class="tile-sub">Jim, a water restoration company owner doing $500K–$4.3M</p>
-          <p class="tile-cap">Homeowners who already found the company on Google and ChatGPT were easier to close than any other lead source they had tried.</p>
         </div>
       </article>
 
@@ -163,9 +229,8 @@
           <img src="assets/proof/guarantee.webp" alt="Top 3 in 90 days or a full refund">
         </div>
         <div class="tile-body">
-          <p class="tile-head">Top 3 in 90 days, or a full refund</p>
-          <p class="tile-sub">Match Method · keyword-rich 5-star reviews and a weekly page for every service and city</p>
-          <p class="tile-cap">One water damage restoration company per 30-mile radius. Winter is when burst-pipe searches spike, and the top 3 take the job.</p>
+          <p class="tile-head">Top 3 on Google Maps and ChatGPT within 90 days, or a full refund.</p>
+          <p class="tile-cap">Target: 30+ inbound calls monthly with $0 ad spend.</p>
         </div>
       </article>
     </div>
@@ -180,7 +245,7 @@
   </section>
 
   <footer class="legal">
-    <p><strong>Results:</strong> The written stories above leave company names and states off. The on-camera reviews use each owner&rsquo;s first name. They are examples, not a promise that your company will see the same call volume. Markets, crews, close rates, and reviews all change the outcome. The offer on this page is specific: 30+ inbound emergency calls a month within 90 days, with $0 in ad spend, and top 3 on Google Maps and ChatGPT or a full refund, for the one water damage restoration company we accept inside a 30-mile radius.</p>
+    <p><strong>Results:</strong> Jim, Tony at Colorado Stain Masters, and Joe at NH Basement Waterproofing are named above. The other written stories leave the company name off. They are examples, not a promise that your company will see the same call volume. Markets, crews, close rates, and reviews all change the outcome. The offer on this page is specific: 30+ inbound emergency calls a month within 90 days, with $0 in ad spend, and top 3 on Google Maps and ChatGPT or a full refund, for the one water damage restoration company we accept inside a 30-mile radius.</p>
     <p><strong>About this site:</strong> WealthLink Media publishes this page so restoration owners can apply for a strategy call. It is marketing, not legal, tax, or financial advice. By sending the form you agree we may call or text the number you entered. We call within 5 minutes during business hours.</p>
     <p>© 2026 WealthLink Media</p>
     <p class="legal-links">
@@ -196,7 +261,6 @@
   var leadForm = document.getElementById("leadForm");
   wireLeadForm(leadForm);
   wireProgressiveForm(leadForm);
-  wireBusinessAutocomplete(document.getElementById("businessName"));
 </script>
 </body>
 </html>

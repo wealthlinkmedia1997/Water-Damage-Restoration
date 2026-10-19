@@ -99,7 +99,7 @@ window.EXPLAINER_VIDEO = {
 
 // Homepage rail: windows-test HOME order, with the duplicate
 // chriss/natalies clips collapsed to chris/natalie, plus Danny.
-window.HOME_TESTIMONIAL_IDS = ["trevor", "todd", "anthony", "bryan", "natalie", "jim", "mindi", "chris", "paul", "danny"];
+window.HOME_TESTIMONIAL_IDS = ["todd", "trevor", "anthony", "bryan", "natalie", "jim", "mindi", "chris", "paul", "danny"];
 // Booking pages match windows-test BOOKING_TESTIMONIAL_IDS.
 window.BOOKING_TESTIMONIAL_IDS = ["jim", "trevor", "mindi"];
 // Thank-you page matches windows-test THANK_YOU_TESTIMONIAL_IDS.

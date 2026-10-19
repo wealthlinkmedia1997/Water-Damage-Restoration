@@ -390,6 +390,10 @@ function digitsOnly(v) {
 
 function wireProgressiveForm(formEl) {
   if (!formEl) return;
+  if (formEl.dataset.qualifier === "1") {
+    wireQualifierSteps(formEl);
+    return;
+  }
   const steps = {};
   formEl.querySelectorAll("[data-step]").forEach((f) => { steps[f.dataset.step] = f; });
   const bar = formEl.querySelector(".form-progress i");
@@ -510,10 +514,170 @@ const GBP_LABELS = {
 // a hidden field that is still `required` makes Chrome refuse to submit with
 // "An invalid form control is not focusable", so validation happens here
 // instead, against whichever path the user is actually on.
+const QUALIFIER_STEPS = ["businessType", "jobType", "paymentMix", "revenue", "phone"];
+const DISQUALIFIED_BUSINESS = {
+  basement_waterproofing: true,
+  mold_only: true,
+};
+
+function fieldValue(formEl, name) {
+  const checked = formEl.querySelector('[name="' + name + '"]:checked');
+  if (checked) return checked.value;
+  const el = formEl.querySelector('[name="' + name + '"]');
+  return el ? el.value.trim() : "";
+}
+
+function fieldLabel(formEl, name) {
+  const checked = formEl.querySelector('[name="' + name + '"]:checked');
+  if (checked) {
+    const label = checked.closest("label");
+    return label ? label.textContent.replace(/\s+/g, " ").trim() : checked.value;
+  }
+  const el = formEl.querySelector('[name="' + name + '"]');
+  if (el && el.tagName === "SELECT" && el.selectedIndex > 0) {
+    return el.options[el.selectedIndex].text;
+  }
+  return "";
+}
+
+function qualifierStepComplete(formEl, name) {
+  if (name === "businessType") return !!fieldValue(formEl, "business_type");
+  if (name === "jobType") return !!fieldValue(formEl, "job_type");
+  if (name === "paymentMix") return !!fieldValue(formEl, "payment_mix");
+  if (name === "revenue") return !!fieldValue(formEl, "current_revenue") && !!fieldValue(formEl, "target_revenue");
+  if (name === "phone") return digitsOnly(fieldValue(formEl, "phone")).length >= 10;
+  return true;
+}
+
+function trackMetaLead() {
+  if (typeof window.fbq === "function") {
+    window.fbq("track", "Lead");
+  }
+}
+
+function wireQualifierSteps(formEl) {
+  const steps = {};
+  formEl.querySelectorAll("[data-step]").forEach((f) => { steps[f.dataset.step] = f; });
+  const bar = formEl.querySelector(".form-progress i");
+  const countEl = formEl.querySelector(".step-count");
+  const back = formEl.querySelector(".form-back");
+  let index = 0;
+
+  function render() {
+    QUALIFIER_STEPS.forEach((name, i) => {
+      const field = steps[name];
+      if (!field) return;
+      const show = i === index;
+      field.classList.toggle("is-hidden", !show);
+      field.classList.toggle("is-open", show);
+      if (!show) field.classList.remove("has-error");
+    });
+    if (countEl) countEl.textContent = "Question " + (index + 1) + " of " + QUALIFIER_STEPS.length;
+    if (bar) bar.style.width = Math.round((index / QUALIFIER_STEPS.length) * 100) + "%";
+    if (back) back.hidden = index === 0;
+  }
+
+  function advance() {
+    const name = QUALIFIER_STEPS[index];
+    if (!qualifierStepComplete(formEl, name)) return;
+    if (index < QUALIFIER_STEPS.length - 1) {
+      index += 1;
+      render();
+      formEl.scrollIntoView({ behavior: "smooth", block: "center" });
+    }
+  }
+
+  formEl.addEventListener("change", function (e) {
+    const t = e.target;
+    if (!t || !t.name) return;
+    if (t.name === "business_type" && DISQUALIFIED_BUSINESS[t.value]) {
+      window.location.href = "sorry.html?reason=service";
+      return;
+    }
+    if (t.name === "phone") return;
+    advance();
+  });
+
+  if (back) {
+    back.addEventListener("click", function () {
+      if (index > 0) index -= 1;
+      render();
+    });
+  }
+
+  if (formEl.phone) {
+    formEl.phone.addEventListener("input", function () {
+      const d = digitsOnly(this.value).slice(0, 10);
+      this.value = d.length > 6 ? "(" + d.slice(0, 3) + ") " + d.slice(3, 6) + "-" + d.slice(6)
+                 : d.length > 3 ? "(" + d.slice(0, 3) + ") " + d.slice(3)
+                 : d.length > 0 ? "(" + d
+                 : "";
+    });
+  }
+
+  render();
+}
+
+function submitQualifier(formEl) {
+  const businessType = fieldValue(formEl, "business_type");
+  if (DISQUALIFIED_BUSINESS[businessType]) {
+    window.location.href = "sorry.html?reason=service";
+    return;
+  }
+
+  const missing = QUALIFIER_STEPS.find((name) => !qualifierStepComplete(formEl, name));
+  if (missing) {
+    const field = formEl.querySelector('[data-step="' + missing + '"]');
+    if (field) {
+      field.classList.remove("is-hidden");
+      field.classList.add("is-open", "has-error");
+      field.scrollIntoView({ behavior: "smooth", block: "center" });
+    }
+    return;
+  }
+
+  const data = {
+    business_type: fieldLabel(formEl, "business_type"),
+    job_type: fieldLabel(formEl, "job_type"),
+    payment_mix: fieldLabel(formEl, "payment_mix"),
+    current_revenue: fieldLabel(formEl, "current_revenue"),
+    target_revenue: fieldLabel(formEl, "target_revenue"),
+    phone: fieldValue(formEl, "phone"),
+  };
+  // Under $25K follows the secondary calendar. $25K and up uses the primary one.
+  // Every qualified lead still lands on thank-you first.
+  data.bookingPage = fieldValue(formEl, "current_revenue") === "under_25k"
+    ? "book-untracked.html"
+    : "book-tracked.html";
+
+  sessionStorage.setItem("rankflow_lead", JSON.stringify(data));
+  if (window.RANKFLOW_CONFIG.LEAD_WEBHOOK_URL) {
+    fetch(window.RANKFLOW_CONFIG.LEAD_WEBHOOK_URL, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        business_type: data.business_type,
+        job_type: data.job_type,
+        payment_mix: data.payment_mix,
+        current_revenue: data.current_revenue,
+        target_revenue: data.target_revenue,
+        phone: data.phone,
+      }),
+      keepalive: true,
+    }).catch(() => {});
+  }
+  trackMetaLead();
+  window.location.href = "thank-you.html";
+}
+
 function wireLeadForm(formEl) {
   if (!formEl) return;
   formEl.addEventListener("submit", function (e) {
     e.preventDefault();
+    if (formEl.dataset.qualifier === "1") {
+      submitQualifier(formEl);
+      return;
+    }
     // This homepage asks no GBP question at all and collects the
     // business name in the hero card instead of the modal. Both are resolved
     // defensively so the same function serves either layout.
@@ -588,6 +752,7 @@ function wireLeadForm(formEl) {
     const dest = hasRevenueField
       ? routeUser(gbp, revenueCode) + "?" + fn
       : "thank-you.html?" + fn + "&biz=" + encodeURIComponent(data.businessName);
+    trackMetaLead();
     window.location.href = dest;
   });
 }

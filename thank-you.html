@@ -54,6 +54,13 @@
   renderExplainerVideo("explainer-video", "stepBar", { autoplay: true });
   renderTestimonials("booking-testimonials", window.THANK_YOU_TESTIMONIAL_IDS);
   (function () {
+    try {
+      var stored = JSON.parse(sessionStorage.getItem("rankflow_lead") || "{}");
+      var cta = document.querySelector('a.cta[href="book-tracked.html"]');
+      if (cta && (stored.bookingPage === "book-tracked.html" || stored.bookingPage === "book-untracked.html")) {
+        cta.href = stored.bookingPage;
+      }
+    } catch (e) {}
     var name = getLeadFirstName();
     if (!name) return;
     var el = document.getElementById("thanksCopy");

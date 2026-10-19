@@ -643,6 +643,129 @@ button.cta { width: 100%; }
   width: 0%;
   background: linear-gradient(90deg, var(--teal-deep), var(--teal-mid) 60%, var(--amber));
 }
+.step-count {
+  margin: 0 0 10px;
+  text-align: center;
+  font-size: 13px;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+.choice-list {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.choice-list legend {
+  float: none;
+  width: 100%;
+  margin: 0 0 4px;
+  padding: 0;
+  text-align: center;
+  font-size: 18px;
+  line-height: 1.35;
+  font-weight: 800;
+  color: var(--ink);
+  text-wrap: balance;
+}
+.lead-form .choice {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  margin: 0;
+  padding: 14px 14px;
+  border: 1.5px solid #C5D5DE;
+  border-radius: 10px;
+  background: #fff;
+  text-align: center;
+  text-transform: none;
+  letter-spacing: 0;
+  font-size: 16px;
+  font-weight: 700;
+  line-height: 1.35;
+  color: var(--ink);
+  cursor: pointer;
+}
+.lead-form .choice input {
+  width: 18px;
+  height: 18px;
+  flex: 0 0 auto;
+  accent-color: #0C5E72;
+}
+.lead-form .choice:has(input:checked) {
+  border-color: var(--teal);
+  background: #E7F4F7;
+  box-shadow: 0 0 0 3px rgba(12, 94, 114, 0.15);
+}
+.lead-form .select-label {
+  margin: 8px 0 0;
+  text-transform: none;
+  letter-spacing: 0;
+  font-size: 14px;
+  font-weight: 800;
+}
+.lead-form select {
+  width: 100%;
+  text-align: center;
+  text-align-last: center;
+  padding: 14px 16px;
+  border: 1.5px solid #C5D5DE;
+  border-radius: 10px;
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--ink);
+  background: #fff;
+}
+.lead-form select:focus {
+  outline: none;
+  border-color: var(--teal);
+  box-shadow: 0 0 0 3px rgba(12, 94, 114, 0.2);
+}
+.lead-form .field.has-error select {
+  border-color: var(--amber-ink);
+  box-shadow: 0 0 0 3px rgba(107, 74, 8, 0.18);
+}
+.form-back {
+  display: block;
+  margin: 4px auto 0;
+  padding: 8px 12px;
+  border: 0;
+  background: none;
+  color: var(--teal-deep);
+  font-weight: 800;
+  font-size: 15px;
+  cursor: pointer;
+}
+.form-back[hidden] { display: none !important; }
+.anon-note {
+  margin: 0;
+  max-width: 40em;
+  text-align: center;
+  font-size: 17px;
+  line-height: 1.5;
+  color: var(--muted);
+}
+.initials-avatar {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  aspect-ratio: 3 / 2;
+  background: linear-gradient(180deg, #12748A 0%, #0C5E72 55%, #084556 100%);
+  color: #F3C15A;
+  font-size: 92px;
+  font-weight: 800;
+  letter-spacing: -0.04em;
+  line-height: 1;
+}
+.wall:has(> :only-child) {
+  grid-template-columns: 1fr;
+  max-width: 540px;
+}
 
 .autocomplete-wrapper { position: relative; }
 .ac-suggestions {

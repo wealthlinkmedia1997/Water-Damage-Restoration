@@ -30,9 +30,14 @@
 <script src="js/main.js"></script>
 <script>
   (function () {
+    var el = document.getElementById("sorryCopy");
+    var reason = new URLSearchParams(window.location.search).get("reason");
+    if (reason === "service") {
+      el.textContent = "Appreciate you reaching out. Andre's team works with emergency water damage restoration and mitigation companies, including companies that do both restoration and waterproofing. Mold remediation only, and basement waterproofing only, are not a fit for this offer.";
+      return;
+    }
     var name = getLeadFirstName();
     if (!name) return;
-    var el = document.getElementById("sorryCopy");
     el.textContent = "Hey " + name + ", appreciate you reaching out. Andre's team works with water damage restoration companies doing about $300K to $5M a year. Below that, the Match Method is not the right spend yet. Keep building the company, then come back.";
   })();
 </script>
