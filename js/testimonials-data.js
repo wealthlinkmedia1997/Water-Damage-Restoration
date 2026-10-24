@@ -60,8 +60,8 @@ window.TESTIMONIALS = [
     quote: "2 months ago I wasnt getting calls, now my site presence has gone through the rough [over 100 5 star reviews] and getting calls every day",
     name: "Chris",
     company: "Owner, Construction Business Idaho Falls",
-    videoSrc: "assets/videos/chris.mp4",
-    poster: "assets/videos/chris-poster.jpg",
+    videoSrc: "assets/videos/chriss.mp4",
+    poster: "assets/videos/chriss.jpg",
   },
   {
     id: "natalie",
