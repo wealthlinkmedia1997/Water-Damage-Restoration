@@ -514,10 +514,15 @@ const GBP_LABELS = {
 // a hidden field that is still `required` makes Chrome refuse to submit with
 // "An invalid form control is not focusable", so validation happens here
 // instead, against whichever path the user is actually on.
-const QUALIFIER_STEPS = ["businessType", "jobType", "paymentMix", "revenue", "phone"];
+const QUALIFIER_STEPS = ["businessType", "jobType", "revenue", "marketing", "phone"];
 const DISQUALIFIED_BUSINESS = {
   basement_waterproofing: true,
   mold_only: true,
+};
+const SCREENOUT_COPY = {
+  service: "We're only able to work with water damage restoration companies at this time. Thanks for your interest.",
+  jobs: "We work with companies focused on full mitigation and insurance claim projects. Thanks for your interest.",
+  revenue: "We work with companies doing at least $25K per month. Thanks for your interest.",
 };
 // Readable label comes from the control. The code is the short value GHL maps on.
 const BUSINESS_TYPE_CODES = {
@@ -531,11 +536,6 @@ const JOB_TYPE_CODES = {
   smaller_jobs: "small_extraction",
   mix: "mix",
 };
-const PAYMENT_MIX_CODES = {
-  mostly_insurance: "insurance",
-  mostly_cash: "cash",
-  half: "half",
-};
 const REVENUE_CODES = {
   under_25k: "r0_25",
   "25k_50k": "r25_50",
@@ -543,6 +543,13 @@ const REVENUE_CODES = {
   "100k_250k": "r100_250",
   "250k_500k": "r250_500",
   "500k_plus": "r500_plus",
+};
+const MARKETING_CODES = {
+  under_1k: "under_1k",
+  "1k_3k": "1k_3k",
+  "3k_6k": "3k_6k",
+  "6k_10k": "6k_10k",
+  "10k_plus": "10k_plus",
 };
 
 function utmParams() {
@@ -555,25 +562,33 @@ function utmParams() {
   return out;
 }
 
-function qualifierPayload(formEl, qualified) {
+function qualifierScreenout(formEl) {
+  const business = fieldValue(formEl, "business_type");
+  if (DISQUALIFIED_BUSINESS[business]) return SCREENOUT_COPY.service;
+  if (fieldValue(formEl, "job_type") === "smaller_jobs") return SCREENOUT_COPY.jobs;
+  if (fieldValue(formEl, "current_revenue") === "under_25k") return SCREENOUT_COPY.revenue;
+  return "";
+}
+
+function qualifierPayload(formEl) {
   const businessValue = fieldValue(formEl, "business_type");
   const jobValue = fieldValue(formEl, "job_type");
-  const payValue = fieldValue(formEl, "payment_mix");
   const currentValue = fieldValue(formEl, "current_revenue");
   const targetValue = fieldValue(formEl, "target_revenue");
+  const marketingValue = fieldValue(formEl, "marketing_spend");
   const payload = {
     phone: fieldValue(formEl, "phone"),
-    businessType: fieldLabel(formEl, "business_type"),
-    businessTypeCode: BUSINESS_TYPE_CODES[businessValue] || "",
-    jobType: fieldLabel(formEl, "job_type"),
-    jobTypeCode: JOB_TYPE_CODES[jobValue] || "",
-    paymentMix: fieldLabel(formEl, "payment_mix"),
-    paymentMixCode: PAYMENT_MIX_CODES[payValue] || "",
-    currentRevenue: fieldLabel(formEl, "current_revenue"),
-    currentRevenueCode: REVENUE_CODES[currentValue] || "",
-    targetRevenue: fieldLabel(formEl, "target_revenue"),
-    targetRevenueCode: REVENUE_CODES[targetValue] || "",
-    qualified: qualified,
+    business_type: fieldLabel(formEl, "business_type"),
+    business_type_code: BUSINESS_TYPE_CODES[businessValue] || "",
+    job_type: fieldLabel(formEl, "job_type"),
+    job_type_code: JOB_TYPE_CODES[jobValue] || "",
+    current_revenue: fieldLabel(formEl, "current_revenue"),
+    current_revenue_code: REVENUE_CODES[currentValue] || "",
+    target_revenue: fieldLabel(formEl, "target_revenue"),
+    target_revenue_code: REVENUE_CODES[targetValue] || "",
+    marketing_spend: fieldLabel(formEl, "marketing_spend"),
+    marketing_spend_code: MARKETING_CODES[marketingValue] || "",
+    qualified: "yes",
     source: "water-damage-restoration-lp",
     pageUrl: window.location.href,
   };
@@ -617,9 +632,9 @@ function fieldLabel(formEl, name) {
 function qualifierStepComplete(formEl, name) {
   if (name === "businessType") return !!fieldValue(formEl, "business_type");
   if (name === "jobType") return !!fieldValue(formEl, "job_type");
-  if (name === "paymentMix") return !!fieldValue(formEl, "payment_mix");
   if (name === "revenue") return !!fieldValue(formEl, "current_revenue") && !!fieldValue(formEl, "target_revenue");
-  if (name === "phone") return digitsOnly(fieldValue(formEl, "phone")).length >= 10;
+  if (name === "marketing") return !!fieldValue(formEl, "marketing_spend");
+  if (name === "phone") return digitsOnly(fieldValue(formEl, "phone")).length === 10;
   return true;
 }
 
@@ -633,11 +648,19 @@ function wireQualifierSteps(formEl) {
   const steps = {};
   formEl.querySelectorAll("[data-step]").forEach((f) => { steps[f.dataset.step] = f; });
   const bar = formEl.querySelector(".form-progress i");
+  const progress = formEl.querySelector(".form-progress");
   const countEl = formEl.querySelector(".step-count");
   const back = formEl.querySelector(".form-back");
+  const screenout = formEl.querySelector(".form-screenout");
+  const screenoutCopy = formEl.querySelector("#screenoutCopy");
   let index = 0;
+  let ended = false;
 
   function render() {
+    ended = false;
+    if (screenout) screenout.hidden = true;
+    if (countEl) countEl.hidden = false;
+    if (progress) progress.hidden = false;
     QUALIFIER_STEPS.forEach((name, i) => {
       const field = steps[name];
       if (!field) return;
@@ -651,9 +674,26 @@ function wireQualifierSteps(formEl) {
     if (back) back.hidden = index === 0;
   }
 
+  function showEnd(message) {
+    ended = true;
+    Object.keys(steps).forEach((name) => {
+      const field = steps[name];
+      field.classList.add("is-hidden");
+      field.classList.remove("is-open", "has-error");
+    });
+    if (countEl) countEl.hidden = true;
+    if (progress) progress.hidden = true;
+    if (screenoutCopy) screenoutCopy.textContent = message;
+    if (screenout) screenout.hidden = false;
+    if (back) back.hidden = false;
+  }
+
+  formEl._showScreenout = showEnd;
+
   function advance() {
     const name = QUALIFIER_STEPS[index];
     if (!qualifierStepComplete(formEl, name)) return;
+    if (qualifierScreenout(formEl)) return;
     if (index < QUALIFIER_STEPS.length - 1) {
       index += 1;
       render();
@@ -663,12 +703,20 @@ function wireQualifierSteps(formEl) {
 
   formEl.addEventListener("change", function (e) {
     const t = e.target;
-    if (!t || !t.name) return;
+    if (!t || !t.name || ended) return;
     if (t.name === "business_type" && DISQUALIFIED_BUSINESS[t.value]) {
-      window.location.href = "sorry.html?reason=service";
+      showEnd(SCREENOUT_COPY.service);
       return;
     }
-    // Q4 stays on screen until Next. Q1–Q3 move on as soon as an option is tapped.
+    if (t.name === "job_type" && t.value === "smaller_jobs") {
+      showEnd(SCREENOUT_COPY.jobs);
+      return;
+    }
+    // Current revenue under $25K ends the form. Otherwise both dropdowns stay up until Next.
+    if (t.name === "current_revenue" && t.value === "under_25k") {
+      showEnd(SCREENOUT_COPY.revenue);
+      return;
+    }
     if (t.name === "current_revenue" || t.name === "target_revenue") {
       if (steps.revenue && qualifierStepComplete(formEl, "revenue")) {
         steps.revenue.classList.remove("has-error");
@@ -683,6 +731,10 @@ function wireQualifierSteps(formEl) {
   if (next) {
     next.addEventListener("click", function () {
       if (QUALIFIER_STEPS[index] !== "revenue") return;
+      if (fieldValue(formEl, "current_revenue") === "under_25k") {
+        showEnd(SCREENOUT_COPY.revenue);
+        return;
+      }
       if (!qualifierStepComplete(formEl, "revenue")) {
         if (steps.revenue) steps.revenue.classList.add("has-error");
         return;
@@ -693,6 +745,10 @@ function wireQualifierSteps(formEl) {
 
   if (back) {
     back.addEventListener("click", function () {
+      if (ended) {
+        render();
+        return;
+      }
       if (index > 0) index -= 1;
       render();
     });
@@ -712,9 +768,9 @@ function wireQualifierSteps(formEl) {
 }
 
 function submitQualifier(formEl) {
-  const businessType = fieldValue(formEl, "business_type");
-  if (DISQUALIFIED_BUSINESS[businessType]) {
-    window.location.href = "sorry.html?reason=service";
+  const screenout = qualifierScreenout(formEl);
+  if (screenout) {
+    if (typeof formEl._showScreenout === "function") formEl._showScreenout(screenout);
     return;
   }
 
@@ -731,21 +787,17 @@ function submitQualifier(formEl) {
     return;
   }
 
-  const payload = qualifierPayload(formEl, "yes");
-  if (digitsOnly(payload.phone).length < 10) return;
+  const payload = qualifierPayload(formEl);
+  if (digitsOnly(payload.phone).length !== 10) return;
 
   formEl.dataset.leadPosted = "1";
   const submitBtn = formEl.querySelector('button[type="submit"]');
   if (submitBtn) submitBtn.disabled = true;
 
-  // Under $25K follows the secondary calendar. $25K and up uses the primary one.
-  // Every qualified lead still lands on thank-you first.
-  const bookingPage = fieldValue(formEl, "current_revenue") === "under_25k"
-    ? "book-untracked.html"
-    : "book-tracked.html";
-
+  // Screened-out answers stop on the form and link to the secondary calendar.
+  // A lead who reaches this submit is at $25K+ and uses the primary calendar.
   sessionStorage.setItem("rankflow_lead", JSON.stringify({
-    bookingPage: bookingPage,
+    bookingPage: "book-tracked.html",
     phone: payload.phone,
   }));
   postLeadWebhook(payload);

@@ -86,18 +86,6 @@ src="https://www.facebook.com/tr?id=1072650102023137&ev=PageView&noscript=1"
           </div>
         </div>
 
-        <div class="field" data-step="paymentMix">
-          <div class="field-inner">
-            <fieldset class="choice-list">
-              <legend>Are most of your jobs going through insurance or cash pay?</legend>
-              <label class="choice"><input type="radio" name="payment_mix" value="mostly_insurance"> Mostly insurance</label>
-              <label class="choice"><input type="radio" name="payment_mix" value="mostly_cash"> Mostly cash pay</label>
-              <label class="choice"><input type="radio" name="payment_mix" value="half"> About half and half</label>
-            </fieldset>
-            <p class="field-error">Choose how most jobs are paid.</p>
-          </div>
-        </div>
-
         <div class="field" data-step="revenue">
           <div class="field-inner">
             <fieldset class="choice-list">
@@ -128,6 +116,20 @@ src="https://www.facebook.com/tr?id=1072650102023137&ev=PageView&noscript=1"
           </div>
         </div>
 
+        <div class="field" data-step="marketing">
+          <div class="field-inner">
+            <fieldset class="choice-list">
+              <legend>Roughly how much are you investing into marketing each month?</legend>
+              <label class="choice"><input type="radio" name="marketing_spend" value="under_1k"> Under $1K</label>
+              <label class="choice"><input type="radio" name="marketing_spend" value="1k_3k"> $1,000-$3,000</label>
+              <label class="choice"><input type="radio" name="marketing_spend" value="3k_6k"> $3,000-$6,000</label>
+              <label class="choice"><input type="radio" name="marketing_spend" value="6k_10k"> $6,000-$10,000</label>
+              <label class="choice"><input type="radio" name="marketing_spend" value="10k_plus"> $10,000+</label>
+            </fieldset>
+            <p class="field-error">Choose your monthly marketing spend.</p>
+          </div>
+        </div>
+
         <div class="field" data-step="phone">
           <div class="field-inner">
             <label for="phone">Phone number</label>
@@ -136,6 +138,11 @@ src="https://www.facebook.com/tr?id=1072650102023137&ev=PageView&noscript=1"
             <button type="submit" class="cta">Call Me Within 5 Minutes</button>
             <p class="fine-print">One company per 30-mile radius. We call within 5 minutes.</p>
           </div>
+        </div>
+
+        <div class="form-screenout" id="formScreenout" hidden>
+          <p id="screenoutCopy"></p>
+          <a class="cta" href="book-untracked.html">Book a Call</a>
         </div>
 
         <button type="button" class="form-back" hidden>Back</button>

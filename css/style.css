@@ -646,6 +646,18 @@ button.cta { width: 100%; }
   cursor: pointer;
 }
 .form-back[hidden] { display: none !important; }
+.form-screenout[hidden],
+.step-count[hidden],
+.form-progress[hidden] { display: none !important; }
+.form-screenout p {
+  margin: 4px 0 18px;
+  text-align: center;
+  font-size: 18px;
+  line-height: 1.45;
+  font-weight: 700;
+  color: var(--ink);
+}
+.form-screenout .cta { width: 100%; }
 .autocomplete-wrapper { position: relative; }
 .ac-suggestions {
   position: absolute;
